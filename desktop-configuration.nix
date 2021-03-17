@@ -2,7 +2,7 @@
 {
 
 	nixpkgs.overlays = [
-		#(import ./overlays/suckless/st-overlay.nix)
+		(import ./overlays/suckless/st-overlay.nix)
 		#(import ./overlays/suckless/surf-overlay.nix)
 		(import ./overlays/suckless/dwm-overlay.nix)
 	];
