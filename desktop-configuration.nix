@@ -56,6 +56,7 @@
 		gnome3.gnome-screenshot
 		blender
 		wireshark
+		flutter
 	];
 
 	hardware.pulseaudio = {
