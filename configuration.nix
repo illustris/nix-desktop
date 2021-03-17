@@ -8,7 +8,6 @@
 {
 
 	nixpkgs.overlays = [
-		#(import ./qemu.nix)
 	];
 
 	imports = [
@@ -29,8 +28,8 @@
 
 	networking.hostName = "desktop"; # Define your hostname.
 	networking.useDHCP = false;
-	networking.interfaces.enp6s18.useDHCP = true;
-	#networking.interfaces.enp11s0.useDHCP = true;
+	#networking.interfaces.enp6s18.useDHCP = true;
+	networking.interfaces.enp11s0.useDHCP = true;
 	
 	
 
@@ -60,7 +59,6 @@
 		wget
 		expect
 		openvpn
-		#signal-cli
 		tcpdump
 		killall
 		file
@@ -76,8 +74,6 @@
 		pciutils
 		sshfs
 		jq
-		#arduino
-		#python27Packages.pyserial
 	];
 
 	programs.gnupg.agent = {
@@ -111,6 +107,8 @@
 		"192.168.1.8" = ["git.illustris.tech"];
 		"192.168.1.10" = ["kube-master"];
 	};
+
+	networking.firewall.enable = false;
 
 	# In case of emergency, bash glass
 	#systemd.tmpfiles.rules = [
