@@ -74,6 +74,9 @@
 		pciutils
 		sshfs
 		jq
+		nixpkgs-review
+		(pkgs.callPackage /home/illustris/src/percol/percol {})
+		niv
 	];
 
 	programs.gnupg.agent = {
@@ -109,6 +112,8 @@
 	};
 
 	networking.firewall.enable = false;
+
+	nix.trustedUsers = [ "root" "illustris" ];
 
 	# In case of emergency, bash glass
 	#systemd.tmpfiles.rules = [
