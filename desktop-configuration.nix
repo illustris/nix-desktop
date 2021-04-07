@@ -31,8 +31,26 @@
 
 	nixpkgs.config.allowUnfree = true;
 	programs.steam.enable = true;
+	programs.chromium = {
+		enable = true;
+		extraOpts = {
+			"PasswordManagerEnabled" = false;
+			"ClearSiteDataOnExit" = false;
+		};
+		extensions = [
+			"gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
+			"cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+			"iipjdmnoigaobkamfhnojmglcdbnfaaf" # Clutter Free
+			"bdakmnplckeopfghnlpocafcepegjeap" # RescueTime
+			"gppongmhjkpfnbhagpmjfkannfbllamg" # wappalyzer
+			"lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
+			"chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
+		];
+		homepageLocation = "https://duckduckgo.com/";
+		defaultSearchProviderSuggestURL = "https://duckduckgo.com/?q={searchTerms}&kp=-1&kac=1";
+		defaultSearchProviderSearchURL = "https://duckduckgo.com/?q=search&kp=-1";
+	};
 	environment.systemPackages = with pkgs; [
-		chromium
 		st
 		dmenu
 		mpv
@@ -57,6 +75,11 @@
 		blender
 		wireshark
 		flutter
+		obs-studio
+		dunst
+		libnotify
+		ungoogled-chromium
+		zoom-us
 	];
 
 	hardware.pulseaudio = {

@@ -1,7 +1,6 @@
 {
 	config,
-	sources ? import ./nix/sources.nix,
-	pkgs ? import sources.nixpkgs {},
+	pkgs,
 	...
 }:
 
@@ -10,10 +9,22 @@
 	nixpkgs.overlays = [
 	];
 
+	# Use nixpkgs from niv
+	nixpkgs.pkgs = let
+		sources = import ./nix/sources.nix;
+	in import sources.nixpkgs {
+		config = config.nixpkgs.config // {
+			allowUnfree = true;
+		};
+	};
+
 	imports = [
 		./hardware-configuration.nix
 		./desktop-configuration.nix
 	];
+
+	# Support ARM builds
+	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 	boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -38,11 +49,13 @@
 	users.users = {
 		illustris = {
 			isNormalUser = true;
-			extraGroups = [ "wheel" "docker" "tty" ]; # Enable ‘sudo’ for the user.
+			extraGroups = [ "wheel" "docker" "tty" "adb" ];
 			openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
 		};
 		root.openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
 	};
+
+	programs.adb.enable = true;
 
 	environment.systemPackages = with pkgs; [
 		git
@@ -77,10 +90,35 @@
 		nixpkgs-review
 		(pkgs.callPackage /home/illustris/src/percol/percol {})
 		niv
+		(
+			rofi.override { plugins = [
+				rofi-calc
+				rofi-pass
+				rofi-systemd
+			]; }
+		)
+		nmap
+		fping
 	];
 
 	programs.gnupg.agent = {
 		enable = true;
+	};
+
+	programs.bash = {
+		interactiveShellInit = ''
+			export HISTSIZE=-1 HISTFILESIZE=-1 HISTCONTROL=ignoreboth:erasedups;
+		'';
+		shellAliases = {
+			genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
+		};
+		promptInit = ''
+			if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
+				PROMPT_COLOR="1;31m"
+				let $UID && PROMPT_COLOR="1;36m"
+				PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
+			fi
+		'';
 	};
 
 	services = {
