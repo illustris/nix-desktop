@@ -127,6 +127,7 @@
 			forwardX11 = true;
 		};
 		udev.packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
+		ntp.enable = true;
 	};
 	environment.etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
 
