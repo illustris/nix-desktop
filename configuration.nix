@@ -40,7 +40,7 @@
 	networking.hostName = "desktop"; # Define your hostname.
 	networking.useDHCP = false;
 	#networking.interfaces.enp6s18.useDHCP = true;
-	networking.interfaces.enp11s0.useDHCP = true;
+	networking.interfaces.enp6s18.useDHCP = true;
 	
 	
 
