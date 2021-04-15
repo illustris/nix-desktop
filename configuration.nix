@@ -126,17 +126,20 @@
 			enable = true;
 			forwardX11 = true;
 		};
-		udev.packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
+		udev = {
+			packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
+			extraRules = ''
+				SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
+			'';
+		};
 		ntp.enable = true;
+		zerotierone.enable = true;
 	};
 	environment.etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
 
 	virtualisation.docker.enable = true;
 
 	# Temporary fix for qemu-ga till #112886 gets merged
-	services.udev.extraRules = ''
-		SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
-	'';
 	systemd.services.qemu-guest-agent = {
 		description = "Run the QEMU Guest Agent";
 		serviceConfig = {
