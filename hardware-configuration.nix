@@ -11,7 +11,7 @@
 	boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "sr_mod" "virtio_blk" ];
 	boot.initrd.kernelModules = [ ];
 	boot.kernelModules = [ "v4l2loopback" ];
-	boot.extraModulePackages = [ pkgs.linuxPackages_latest.v4l2loopback ];
+	boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
 	fileSystems = {
 		"/" = {

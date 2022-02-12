@@ -1,8 +1,4 @@
-{
-	config,
-	pkgs,
-	...
-}:
+{ config, pkgs, ... }:
 
 {
 
@@ -10,13 +6,13 @@
 	];
 
 	# Use nixpkgs from niv
-	nixpkgs.pkgs = let
-		sources = import ./nix/sources.nix;
-	in import sources.nixpkgs {
-		config = config.nixpkgs.config // {
-			allowUnfree = true;
-		};
-	};
+	#nixpkgs.pkgs = let
+	#	sources = import ./nix/sources.nix;
+	#in import sources.nixpkgs {
+	#	config = config.nixpkgs.config // {
+	#		allowUnfree = true;
+	#	};
+	#};
 
 	imports = [
 		./hardware-configuration.nix
@@ -24,101 +20,163 @@
 	];
 
 	# Support ARM builds
-	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+	boot = {
+		binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-	boot.kernelPackages = pkgs.linuxPackages_latest;
+		kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.efi.canTouchEfiVariables = true;
+		loader = {
+			systemd-boot.enable = true;
+			efi.canTouchEfiVariables = true;
+		};
 
-	boot.supportedFilesystems = [ "zfs" ];
-	boot.zfs.devNodes = "/dev/disk/by-partuuid";
-	networking.hostId = "f86b2fa7";
+		supportedFilesystems = [ "zfs" ];
+		zfs.devNodes = "/dev/disk/by-partuuid";
+	};
 
 	time.timeZone = "Asia/Kolkata";
 
-	networking.hostName = "desktop"; # Define your hostname.
-	networking.useDHCP = false;
-	#networking.interfaces.enp6s18.useDHCP = true;
-	networking.interfaces.enp6s18.useDHCP = true;
-	
-	
+	networking = {
+		hostId = "f86b2fa7";
+
+		hostName = "desktop";
+		useDHCP = false;
+		interfaces = {
+			enp6s18.useDHCP = true;
+			enp11s0.useDHCP = true;
+		};
+		#hosts = {
+		#};
+	};
 
 	security.sudo.wheelNeedsPassword = false;
 
 	users.users = {
 		illustris = {
 			isNormalUser = true;
-			extraGroups = [ "wheel" "docker" "tty" "adb" ];
+			extraGroups = [ "wheel" "docker" "tty" "adb" "libvirtd" ];
 			openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
 		};
 		root.openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
 	};
 
-	programs.adb.enable = true;
-
-	environment.systemPackages = with pkgs; [
-		git
-		tmux
-		htop
-		nfs-utils
-		bmon
-		sysstat
-		(pass.withExtensions (exts: [ exts.pass-otp ]))
-		nnn
-		mosh
-		ncdu
-		(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
-		wget
-		expect
-		openvpn
-		tcpdump
-		killall
-		file
-		tree
-		ntfs3g
-		p7zip
-		ranger
-		cscope
-		python
-		bind # for nslookup
-		ethtool
-		unzip
-		pciutils
-		sshfs
-		jq
-		nixpkgs-review
-		(pkgs.callPackage /home/illustris/src/percol/percol {})
-		niv
-		(
-			rofi.override { plugins = [
-				rofi-calc
-				rofi-pass
-				rofi-systemd
-			]; }
-		)
-		nmap
-		fping
-	];
-
-	programs.gnupg.agent = {
-		enable = true;
+	environment = {
+		systemPackages = with pkgs; [
+			asciinema
+			bind
+			binutils-unwrapped
+			bmon
+			cmatrix # More useful than you might think
+			#ec2_api_tools
+			ethtool
+			expect
+			fatrace
+			file
+			gdb
+			git
+			gnumake
+			#graphviz
+			htop
+			#imagemagick
+			iotop
+			iperf
+			jq
+			killall
+			latencytop
+			linuxPackages.perf
+			lsof
+			mosh
+			ncdu
+			neofetch
+			networkmanager
+			nfs-utils
+			nix-du
+			nix-prefetch-git
+			nix-tree
+			nnn
+			openvpn
+			p7zip
+			pciutils
+			powertop
+			pv
+			python3
+			pythonPackages.percol
+			ranger
+			screen
+			sshfs
+			surf
+			sysstat
+			tmate
+			tmux
+			tree
+			unzip
+			usbutils
+			valgrind
+			virt-manager
+			wget
+			youtube-dl
+			(cscope.override{emacsSupport = false;})
+			#(emacs.override{withGTK3 = false; withX = false;})
+			(pass.withExtensions (exts: [ exts.pass-otp ]))
+			((pkgs.callPackage ./packages/passcol) { })
+			(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
+		];
+		etc = {
+			openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
+			nixpkgs.source = let sources = import ./nix/sources.nix; in sources.nixpkgs;
+		};
 	};
 
-	programs.bash = {
-		interactiveShellInit = ''
-			export HISTSIZE=-1 HISTFILESIZE=-1 HISTCONTROL=ignoreboth:erasedups;
-		'';
-		shellAliases = {
-			genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
+	#programs.bash = {
+	#	interactiveShellInit = ''
+	#		export HISTSIZE=-1 HISTFILESIZE=-1 HISTCONTROL=ignoreboth:erasedups;
+	#	'';
+	#	shellAliases = {
+	#		genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
+	#	};
+	#	promptInit = ''
+	#		if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
+	#			PROMPT_COLOR="1;31m"
+	#			let $UID && PROMPT_COLOR="1;36m"
+	#			PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
+	#		fi
+	#	'';
+	#};
+
+
+	programs = {
+		adb.enable = true;
+		bash = {
+			interactiveShellInit = ''
+				export HISTSIZE=-1 HISTFILESIZE=-1 HISTCONTROL=ignoreboth:erasedups
+				shopt -s histappend
+				export PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+			'';
+			shellAliases = {
+				genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
+				nt = "sudo nix-shell /etc/nixos/shell.nix --run \"nixos-rebuild test\"";
+				ns = "sudo nix-shell /etc/nixos/shell.nix --run \"nixos-rebuild switch\"";
+				grep = "grep --color";
+			};
+			promptInit = ''
+				if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
+					PROMPT_COLOR="1;31m"
+					let $UID && PROMPT_COLOR="1;36m"
+					PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
+				fi
+			'';
 		};
-		promptInit = ''
-			if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
-				PROMPT_COLOR="1;31m"
-				let $UID && PROMPT_COLOR="1;36m"
-				PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
-			fi
-		'';
+
+		# for virt-manager
+		dconf.enable = true;
+
+		gnupg.agent = {
+			enable = true;
+			pinentryFlavor = "curses";
+		};
+		mosh.enable = true;
+		mtr.enable = true;
+		ssh.startAgent = true;
 	};
 
 	services = {
@@ -134,10 +192,14 @@
 		};
 		ntp.enable = true;
 		zerotierone.enable = true;
+		flatpak.enable = true;
+		gnome3.gnome-keyring.enable = true;
 	};
-	environment.etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
 
-	virtualisation.docker.enable = true;
+	virtualisation = {
+		docker.enable = true;
+		libvirtd.enable = true;
+	};
 
 	# Temporary fix for qemu-ga till #112886 gets merged
 	systemd.services.qemu-guest-agent = {
@@ -148,14 +210,19 @@
 			RestartSec = 0;
 		};
 	};
-	networking.hosts = {
-		"192.168.1.8" = ["git.illustris.tech"];
-		"192.168.1.10" = ["kube-master"];
-	};
 
 	networking.firewall.enable = false;
 
-	nix.trustedUsers = [ "root" "illustris" ];
+	nix = {
+		autoOptimiseStore = true;
+		nixPath = [
+			"nixpkgs=${pkgs.path}"
+			"nixos-config=/etc/nixos/configuration.nix"
+		];
+		trustedUsers = [ "root" "illustris" ];
+	};
+
+	xdg.portal.enable = true;
 
 	# In case of emergency, bash glass
 	#systemd.tmpfiles.rules = [
@@ -168,7 +235,7 @@
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "21.03"; # Did you read the comment?
+	system.stateVersion = "21.05"; # Did you read the comment?
 
 }
 
