@@ -112,7 +112,7 @@
 			unzip
 			usbutils
 			valgrind
-			virt-manager
+			#virt-manager
 			wget
 			youtube-dl
 			(cscope.override{emacsSupport = false;})
