@@ -27,16 +27,65 @@
 			#backend = "xr_glx_hybrid";
 			backend = "glx";
 		};
+		pipewire = {
+			enable = true;
+			alsa = {
+				enable = true;
+				support32Bit = true;
+			};
+			pulse.enable = true;
+			jack.enable = true;
+			socketActivation = true;
+			config.pipewire = {
+				#"context.properties" = {
+				#	"link.max-buffers" = 16;
+				#	"log.level" = 2;
+				#	"default.clock.rate" = 48000;
+				#	"default.clock.quantum" = 32;
+				#	"default.clock.min-quantum" = 32;
+				#	"default.clock.max-quantum" = 32;
+				#	"core.daemon" = true;
+				#	"core.name" = "pipewire-0";
+				#};
+				#"context.modules" = [
+				#	{
+				#		name = "libpipewire-module-rtkit";
+				#		args = {
+				#			"nice.level" = -15;
+				#			"rt.prio" = 88;
+				#			"rt.time.soft" = 200000;
+				#			"rt.time.hard" = 200000;
+				#		};
+				#		flags = [ "ifexists" "nofail" ];
+				#	}
+				#	{ name = "libpipewire-module-protocol-native"; }
+				#	{ name = "libpipewire-module-profiler"; }
+				#	{ name = "libpipewire-module-metadata"; }
+				#	{ name = "libpipewire-module-spa-device-factory"; }
+				#	{ name = "libpipewire-module-spa-node-factory"; }
+				#	{ name = "libpipewire-module-client-node"; }
+				#	{ name = "libpipewire-module-client-device"; }
+				#	{
+				#		name = "libpipewire-module-portal";
+				#		flags = [ "ifexists" "nofail" ];
+				#	}
+				#	{
+				#	name = "libpipewire-module-access";
+				#	args = {};
+				#	}
+				#	{ name = "libpipewire-module-adapter"; }
+				#	{ name = "libpipewire-module-link-factory"; }
+				#	{ name = "libpipewire-module-session-manager"; }
+				#];
+			};
+
+		};
 	};
 
 	nixpkgs.config.allowUnfree = true;
 	programs.steam.enable = true;
 	programs.chromium = {
 		enable = true;
-		extraOpts = {
-			"PasswordManagerEnabled" = false;
-			"ClearSiteDataOnExit" = false;
-		};
 		extensions = [
 			"gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
 			"cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
@@ -45,10 +94,17 @@
 			"gppongmhjkpfnbhagpmjfkannfbllamg" # wappalyzer
 			"lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
 			"chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
+			"aghfnjkcakhmadgdomlmlhhaocbkloab" # just black
+			"fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
 		];
-		homepageLocation = "https://duckduckgo.com/";
-		defaultSearchProviderSuggestURL = "https://duckduckgo.com/?q={searchTerms}&kp=-1&kac=1";
-		defaultSearchProviderSearchURL = "https://duckduckgo.com/?q=search&kp=-1";
+		homepageLocation = "https://sx.illustris.tech/";
+		defaultSearchProviderSuggestURL = "https://sx.illustris.tech/autocompleter?q={searchTerms}";
+		defaultSearchProviderSearchURL = "https://sx.illustris.tech/search?q={searchTerms}";
+		extraOpts = {
+			DefaultSearchProviderEnabled = true;
+			DefaultSearchProviderName = "Sx";
+			DefaultCookiesSetting = 1;
+		};
 	};
 	environment.systemPackages = with pkgs; [
 		st
@@ -58,8 +114,8 @@
 		sublime3
 		perlPackages.AppClusterSSH
 		x11vnc
-		kcachegrind
-		remmina
+		#kcachegrind
+		#remmina
 		insomnia
 		vlc
 		openhmd
@@ -69,8 +125,8 @@
 		signal-desktop
 		sxiv
 		scrot
-		(libsForQt5.callPackage (import ./packages/rescuetime/default.nix) {})
-		surf
+		#(libsForQt5.callPackage (import ./packages/rescuetime/default.nix) {})
+		#surf
 		gnome3.gnome-screenshot
 		blender
 		wireshark
@@ -80,10 +136,13 @@
 		libnotify
 		ungoogled-chromium
 		zoom-us
+		guake
 	];
 
+	security.rtkit.enable = true;
+
 	hardware.pulseaudio = {
-		enable = true;
+		enable = false;
 		daemon.config.default-sample-channels = 6;
 		package = pkgs.pulseaudioFull;
 		#extraConfig = ''
