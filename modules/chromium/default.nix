@@ -1,7 +1,7 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-	config.programs.chromium = {
+	programs.chromium = {
 		enable = true;
 		extensions = [
 			"gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
@@ -23,4 +23,7 @@
 			DefaultCookiesSetting = 1;
 		};
 	};
+	environment.systemPackages = with pkgs; [
+		ungoogled-chromium
+	];
 }

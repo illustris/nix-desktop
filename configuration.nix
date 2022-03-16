@@ -17,6 +17,7 @@
 	imports = [
 		./hardware-configuration.nix
 		./desktop-configuration.nix
+		./modules
 	];
 
 	# Support ARM builds
@@ -91,10 +92,10 @@
 			networkmanager
 			nfs-utils
 			nix-du
+			nix-top
 			nix-prefetch-git
 			nix-tree
 			nnn
-			openvpn
 			p7zip
 			pciutils
 			powertop
@@ -122,7 +123,6 @@
 			(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
 		];
 		etc = {
-			openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
 			nixpkgs.source = let sources = import ./nix/sources.nix; in sources.nixpkgs;
 		};
 	};
@@ -194,6 +194,7 @@
 		zerotierone.enable = true;
 		flatpak.enable = true;
 		gnome3.gnome-keyring.enable = true;
+		qemuGuest.enable = true;
 	};
 
 	virtualisation = {
@@ -201,20 +202,13 @@
 		libvirtd.enable = true;
 	};
 
-	# Temporary fix for qemu-ga till #112886 gets merged
-	systemd.services.qemu-guest-agent = {
-		description = "Run the QEMU Guest Agent";
-		serviceConfig = {
-			ExecStart = "${pkgs.qemu}/bin/qemu-ga --statedir /var/run";
-			Restart = "always";
-			RestartSec = 0;
-		};
-	};
-
 	networking.firewall.enable = false;
 
 	nix = {
 		autoOptimiseStore = true;
+		extraOptions = ''
+			experimental-features = nix-command flakes
+		'';
 		nixPath = [
 			"nixpkgs=${pkgs.path}"
 			"nixos-config=/etc/nixos/configuration.nix"

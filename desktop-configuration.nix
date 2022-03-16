@@ -27,6 +27,7 @@
 			#backend = "xr_glx_hybrid";
 			backend = "glx";
 		};
+		blueman.enable = true;
 		pipewire = {
 			enable = true;
 			alsa = {
@@ -113,7 +114,6 @@
 		obs-studio
 		dunst
 		libnotify
-		ungoogled-chromium
 		zoom-us
 		guake
 	];
