@@ -196,7 +196,7 @@
 			joinNetworks = [ "93afae5963c6858e" ];
 		};
 		flatpak.enable = true;
-		gnome3.gnome-keyring.enable = true;
+		gnome.gnome-keyring.enable = true;
 		qemuGuest.enable = true;
 	};
 
@@ -208,7 +208,6 @@
 	networking.firewall.enable = false;
 
 	nix = {
-		autoOptimiseStore = true;
 		extraOptions = ''
 			experimental-features = nix-command flakes
 		'';
@@ -216,7 +215,10 @@
 			"nixpkgs=${pkgs.path}"
 			"nixos-config=/etc/nixos/configuration.nix"
 		];
-		trustedUsers = [ "root" "illustris" ];
+		settings = {
+			trusted-users = [ "root" "illustris" ];
+			auto-optimise-store = true;
+		};
 	};
 
 	xdg.portal.enable = true;
