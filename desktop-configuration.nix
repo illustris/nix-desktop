@@ -23,7 +23,6 @@
 		picom = {
 			enable = true;
 			vSync = true;
-			refreshRate = 60;
 			#backend = "xr_glx_hybrid";
 			backend = "glx";
 		};
@@ -95,7 +94,7 @@
 		perlPackages.AppClusterSSH
 		x11vnc
 		#kcachegrind
-		#remmina
+		remmina
 		insomnia
 		vlc
 		openhmd

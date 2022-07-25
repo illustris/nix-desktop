@@ -34,11 +34,6 @@
 			fsType = "zfs";
 		};
 
-		#"/var/lib/steam" = {
-		#	device = "ssd/steam";
-		#	fsType = "zfs";
-		#};
-
 		"/tmp" = {
 			device = "ssd/tmp";
 			fsType = "zfs";
