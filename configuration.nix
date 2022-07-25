@@ -118,23 +118,6 @@ in
 		};
 	};
 
-	#programs.bash = {
-	#	interactiveShellInit = ''
-	#		export HISTSIZE=-1 HISTFILESIZE=-1 HISTCONTROL=ignoreboth:erasedups;
-	#	'';
-	#	shellAliases = {
-	#		genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
-	#	};
-	#	promptInit = ''
-	#		if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
-	#			PROMPT_COLOR="1;31m"
-	#			let $UID && PROMPT_COLOR="1;36m"
-	#			PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
-	#		fi
-	#	'';
-	#};
-
-
 	programs = {
 		adb.enable = true;
 		bash = {
@@ -199,10 +182,7 @@ in
 		extraOptions = ''
 			experimental-features = nix-command flakes
 		'';
-		nixPath = [
-			"nixpkgs=${pkgs.path}"
-			"nixos-config=/etc/nixos/configuration.nix"
-		];
+		nixPath = [ "nixpkgs=${pkgs.path}" ];
 		settings = {
 			trusted-users = [ "root" "illustris" ];
 			auto-optimise-store = true;
