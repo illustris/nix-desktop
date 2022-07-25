@@ -1,18 +1,15 @@
 { config, pkgs, ... }:
 
+let
+	ghKeys = builtins.fetchurl {
+		sha256 = "sha256:189ah8yyqgjvlsi2hydk94jrra97jj7hpxr805bzkif05jp2ivai";
+		url = "https://github.com/illustris.keys";
+	};
+in
 {
 
 	nixpkgs.overlays = [
 	];
-
-	# Use nixpkgs from niv
-	#nixpkgs.pkgs = let
-	#	sources = import ./nix/sources.nix;
-	#in import sources.nixpkgs {
-	#	config = config.nixpkgs.config // {
-	#		allowUnfree = true;
-	#	};
-	#};
 
 	imports = [
 		./hardware-configuration.nix
@@ -56,9 +53,9 @@
 		illustris = {
 			isNormalUser = true;
 			extraGroups = [ "wheel" "docker" "tty" "adb" "libvirtd" ];
-			openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
+			openssh.authorizedKeys.keyFiles = [ ghKeys ];
 		};
-		root.openssh.authorizedKeys.keyFiles = [ ./secrets/ssh_pubkeys ];
+		root.openssh.authorizedKeys.keyFiles = [ ghKeys ];
 	};
 
 	environment = {
@@ -123,7 +120,7 @@
 			(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
 		];
 		etc = {
-			nixpkgs.source = let sources = import ./nix/sources.nix; in sources.nixpkgs;
+			nixpkgs.source = pkgs.path;
 		};
 	};
 
@@ -154,8 +151,8 @@
 			'';
 			shellAliases = {
 				genpass = "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 2";
-				nt = "sudo nix-shell /etc/nixos/shell.nix --run \"nixos-rebuild test\"";
-				ns = "sudo nix-shell /etc/nixos/shell.nix --run \"nixos-rebuild switch\"";
+				nt = "sudo nixos-rebuild test --flake /etc/nixos#";
+				ns = "sudo nixos-rebuild switch --flake /etc/nixos#";
 				grep = "grep --color";
 			};
 			promptInit = ''
