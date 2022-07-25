@@ -38,13 +38,7 @@ in
 		hostId = "f86b2fa7";
 
 		hostName = "desktop";
-		useDHCP = false;
-		interfaces = {
-			enp6s18.useDHCP = true;
-			enp11s0.useDHCP = true;
-		};
-		#hosts = {
-		#};
+		networkmanager.enable = true;
 	};
 
 	security.sudo.wheelNeedsPassword = false;
