@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 {
+	programs.browserpass.enable = true;
 	programs.chromium = {
 		enable = true;
 		extensions = [
@@ -13,6 +14,7 @@
 			"chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
 			"aghfnjkcakhmadgdomlmlhhaocbkloab" # just black
 			"fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
+			"naepdomgkenhinolocfifgehidddafch" # Browserpass
 		];
 		homepageLocation = "https://sx.illustris.tech/";
 		defaultSearchProviderSuggestURL = "https://sx.illustris.tech/autocompleter?q={searchTerms}";
