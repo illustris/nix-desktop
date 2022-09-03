@@ -24,7 +24,10 @@ in
 		kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
 		loader = {
-			systemd-boot.enable = true;
+			systemd-boot = {
+				enable = true;
+				configurationLimit = 4;
+			};
 			efi.canTouchEfiVariables = true;
 		};
 
