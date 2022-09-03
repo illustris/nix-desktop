@@ -86,6 +86,7 @@
 	programs.steam.enable = true;
 
 	environment.systemPackages = with pkgs; [
+		emacs
 		st
 		dmenu
 		mpv
