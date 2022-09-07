@@ -5,13 +5,13 @@
 	programs.chromium = {
 		enable = true;
 		extensions = [
-			"gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
+			# "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
 			"cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
 			"iipjdmnoigaobkamfhnojmglcdbnfaaf" # Clutter Free
-			"bdakmnplckeopfghnlpocafcepegjeap" # RescueTime
-			"gppongmhjkpfnbhagpmjfkannfbllamg" # wappalyzer
+			# "bdakmnplckeopfghnlpocafcepegjeap" # RescueTime
+			# "gppongmhjkpfnbhagpmjfkannfbllamg" # wappalyzer
 			"lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
-			"chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
+			# "chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
 			"aghfnjkcakhmadgdomlmlhhaocbkloab" # just black
 			"fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
 			"naepdomgkenhinolocfifgehidddafch" # Browserpass
