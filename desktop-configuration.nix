@@ -98,6 +98,7 @@
 		remmina
 		insomnia
 		vlc
+		virt-manager
 		openhmd
 		gimp
 		firefox
