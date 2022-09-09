@@ -175,7 +175,10 @@ in
 	};
 
 	virtualisation = {
-		docker.enable = true;
+		docker = {
+			enable = true;
+			enableNvidia = true;
+		};
 		libvirtd.enable = true;
 	};
 
