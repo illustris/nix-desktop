@@ -157,6 +157,7 @@ in
 	};
 
 	services = {
+		zfs.autoScrub.enable = true;
 		openssh = {
 			enable = true;
 			forwardX11 = true;
@@ -181,6 +182,8 @@ in
 		docker = {
 			enable = true;
 			enableNvidia = true;
+			# extraOptions = "--storage-opt dm.basesize=20G";
+			storageDriver = "zfs";
 		};
 		libvirtd.enable = true;
 	};
