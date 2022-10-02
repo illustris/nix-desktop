@@ -83,6 +83,7 @@ in
 			mosh
 			ncdu
 			neofetch
+			nethogs
 			networkmanager
 			nfs-utils
 			nix-du
