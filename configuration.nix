@@ -174,6 +174,7 @@ in
 		flatpak.enable = true;
 		gnome.gnome-keyring.enable = true;
 		qemuGuest.enable = true;
+		resolved.enable = true;
 	};
 
 	virtualisation = {
