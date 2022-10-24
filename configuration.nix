@@ -58,6 +58,7 @@ in
 	environment = {
 		systemPackages = with pkgs; [
 			asciinema
+			arandr
 			bind
 			binutils-unwrapped
 			bmon
