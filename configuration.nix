@@ -32,7 +32,7 @@ in
 		};
 
 		supportedFilesystems = [ "zfs" "ntfs" ];
-		zfs.devNodes = "/dev/disk/by-path";
+		zfs.devNodes = "/dev/disk/by-partuuid";
 	};
 
 	time.timeZone = "Asia/Kolkata";

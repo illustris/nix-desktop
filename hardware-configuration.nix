@@ -8,10 +8,14 @@
 		(modulesPath + "/profiles/qemu-guest.nix")
 	];
 
-	boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "sr_mod" "virtio_blk" ];
-	boot.initrd.kernelModules = [ ];
-	boot.kernelModules = [ "v4l2loopback" ];
-	boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+	boot = {
+		initrd = {
+			availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "sr_mod" "virtio_blk" "nvme" ];
+			kernelModules = [ ];
+		};
+		kernelModules = [ "v4l2loopback" ];
+		extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+	};
 
 	fileSystems = {
 		"/" = {
