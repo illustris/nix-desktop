@@ -108,7 +108,7 @@
 		scrot
 		#(libsForQt5.callPackage (import ./packages/rescuetime/default.nix) {})
 		#surf
-		gnome3.gnome-screenshot
+		gnome.gnome-screenshot
 		blender
 		wireshark
 		flutter
@@ -117,6 +117,7 @@
 		libnotify
 		zoom-us
 		guake
+		okular
 	];
 
 	security.rtkit.enable = true;
