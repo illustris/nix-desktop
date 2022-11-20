@@ -17,6 +17,7 @@
 					./configuration.nix
 					home-manager.nixosModule
 					{nix.registry.np.flake = nixpkgs;}
+					{environment.etc.flake.source = self;}
 				];
 			};
 		};
