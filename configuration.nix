@@ -19,7 +19,10 @@ in
 
 	# Support ARM builds
 	boot = {
-		binfmt.emulatedSystems = [ "aarch64-linux" ];
+		binfmt.emulatedSystems = [
+			"aarch64-linux"
+			"riscv64-linux"
+		];
 
 		kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
