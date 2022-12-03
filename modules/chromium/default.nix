@@ -15,6 +15,7 @@
 			"aghfnjkcakhmadgdomlmlhhaocbkloab" # just black
 			"fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
 			"naepdomgkenhinolocfifgehidddafch" # Browserpass
+			"bhhioamnpnhgcakbdnkgmnjjbjolfjmj" # Advent of Code to Markdown
 		];
 		homepageLocation = "https://sx.illustris.tech/";
 		defaultSearchProviderSuggestURL = "https://sx.illustris.tech/autocompleter?q={searchTerms}";
