@@ -104,7 +104,7 @@
 		insomnia
 		vlc
 		virt-manager
-		openhmd
+		# openhmd
 		gimp
 		firefox
 		#obs-studio
@@ -114,7 +114,7 @@
 		#(libsForQt5.callPackage (import ./packages/rescuetime/default.nix) {})
 		#surf
 		gnome.gnome-screenshot
-		blender
+		# blender
 		wireshark
 		flutter
 		obs-studio

@@ -100,7 +100,7 @@ in
 			powertop
 			pv
 			python3
-			pythonPackages.percol
+			python3Packages.percol
 			ranger
 			screen
 			sshfs
@@ -165,7 +165,7 @@ in
 		zfs.autoScrub.enable = true;
 		openssh = {
 			enable = true;
-			forwardX11 = true;
+			settings.X11Forwarding = true;
 		};
 		udev = {
 			packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
