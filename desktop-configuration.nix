@@ -11,6 +11,11 @@
 		(nerdfonts.override { fonts = [ "DroidSansMono" ]; })
 	];
 
+	systemd.user.services.sunshine = {
+		script = "sunshine";
+		path = [ pkgs.sunshine ];
+	};
+
 	services = {
 		xserver = {
 			enable = true;
@@ -118,6 +123,7 @@
 		zoom-us
 		guake
 		okular
+		sunshine
 	];
 
 	security.rtkit.enable = true;
