@@ -21,6 +21,26 @@
         "type": "github"
       }
     },
+    "illustris": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1677273080,
+        "narHash": "sha256-0xvYx6GlbvZhIm/IL7iJD7tKCU77dYbdulq3Af8nHpQ=",
+        "owner": "illustris",
+        "repo": "flake",
+        "rev": "f7035476ecfae1af3a1ea38b2171256ac15cfa76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "illustris",
+        "repo": "flake",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1676300157,
@@ -40,6 +60,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "illustris": "illustris",
         "nixpkgs": "nixpkgs"
       }
     },

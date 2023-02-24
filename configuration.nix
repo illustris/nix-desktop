@@ -39,6 +39,7 @@
 			fatrace file
 			gdb git gnumake
 			htop
+			illustris.vpnpass
 			iotop iperf
 			jq
 			killall
@@ -59,7 +60,6 @@
 			youtube-dl
 			(pass.withExtensions (exts: [ exts.pass-otp ]))
 			((pkgs.callPackage ./packages/passcol) { })
-			(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
 		];
 	};
 
