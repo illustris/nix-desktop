@@ -2,6 +2,5 @@
 {
 	imports = [
 		./chromium
-		./openvpn
 	];
 }

@@ -1,46 +1,89 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
 
 	nixpkgs.overlays = [
 		(import ./overlays/suckless/st-overlay.nix)
-		#(import ./overlays/suckless/surf-overlay.nix)
+		# (import ./overlays/suckless/surf-overlay.nix)
 		(import ./overlays/suckless/dwm-overlay.nix)
 	];
 
+	environment.systemPackages = with pkgs; [
+		arandr
+		# blender
+		dmenu
+		dunst
+		emacs
+		firefox
+		flutter
+		gimp
+		gnome.gnome-screenshot
+		guake
+		insomnia
+		# kcachegrind
+		libnotify
+		mpv
+		obs-studio
+		okular
+		# openhmd
+		pavucontrol
+		remmina
+		perlPackages.AppClusterSSH
+		signal-desktop
+		scrot
+		st
+		sunshine
+		# surf
+		sxiv
+		virt-manager
+		vlc
+		wireshark
+		x11vnc
+		# zoom-us
+	];
+	
 	fonts.fonts = with pkgs; [
 		(nerdfonts.override { fonts = [ "DroidSansMono" ]; })
 	];
 
-	systemd.user.services.sunshine = {
-		script = "sunshine";
-		path = [ pkgs.sunshine ];
+	hardware.pulseaudio = {
+		daemon.config.default-sample-channels = 6;
+		enable = false;
+		# extraConfig = ''
+		# 	load-module module-simple-protocol-tcp rate=48000 format=s16le channels=2 source=alsa_output.pci-0000_01_00.1.hdmi-stereo.monitor record=true port=8888
+		# '';
+		package = pkgs.pulseaudioFull;
+		# tcp = {
+		# 	enable = true;
+		# };
 	};
 
+	networking.firewall.allowedTCPPorts = [ 4713 8888 ];
+
+	programs.steam.enable = true;
+
+	security.rtkit.enable = true;
+
 	services = {
-		xserver = {
-			enable = true;
-			displayManager.defaultSession = "none+dwm";
-			windowManager.dwm.enable = true;
-			videoDrivers = [ "nvidia" ];
-			dpi = 100;
-			#defaultDepth = 30;
-		};
+		blueman.enable = true;
 		picom = {
+			backend = "glx";
+			# backend = "xr_glx_hybrid";
 			enable = true;
 			vSync = true;
-			#backend = "xr_glx_hybrid";
-			backend = "glx";
 		};
-		blueman.enable = true;
-		pipewire = {
+		xserver = {
+			# defaultDepth = 30;
+			displayManager.defaultSession = "none+dwm";
+			dpi = 100;
 			enable = true;
+			videoDrivers = [ "nvidia" ];
+			windowManager.dwm.enable = true;
+		};
+		pipewire = {
 			alsa = {
 				enable = true;
 				support32Bit = true;
 			};
-			pulse.enable = true;
-			jack.enable = true;
-			socketActivation = true;
 			config.pipewire = {
 				#"context.properties" = {
 				#	"link.max-buffers" = 16;
@@ -83,62 +126,15 @@
 				#	{ name = "libpipewire-module-session-manager"; }
 				#];
 			};
-
+			enable = true;
+			jack.enable = true;
+			pulse.enable = true;
+			socketActivation = true;
 		};
 	};
 
-	nixpkgs.config.allowUnfree = true;
-	programs.steam.enable = true;
-
-	environment.systemPackages = with pkgs; [
-		emacs
-		st
-		dmenu
-		mpv
-		pavucontrol
-		sublime3
-		perlPackages.AppClusterSSH
-		x11vnc
-		#kcachegrind
-		remmina
-		insomnia
-		vlc
-		virt-manager
-		# openhmd
-		gimp
-		firefox
-		#obs-studio
-		signal-desktop
-		sxiv
-		scrot
-		#(libsForQt5.callPackage (import ./packages/rescuetime/default.nix) {})
-		#surf
-		gnome.gnome-screenshot
-		# blender
-		wireshark
-		flutter
-		obs-studio
-		dunst
-		libnotify
-		zoom-us
-		guake
-		okular
-		sunshine
-	];
-
-	security.rtkit.enable = true;
-
-	hardware.pulseaudio = {
-		enable = false;
-		daemon.config.default-sample-channels = 6;
-		package = pkgs.pulseaudioFull;
-		#extraConfig = ''
-		#	load-module module-simple-protocol-tcp rate=48000 format=s16le channels=2 source=alsa_output.pci-0000_01_00.1.hdmi-stereo.monitor record=true port=8888
-		#'';
-		#tcp = {
-		#	enable = true;
-		#};
+	systemd.user.services.sunshine = {
+		path = [ pkgs.sunshine ];
+		script = "sunshine";
 	};
-
-	networking.firewall.allowedTCPPorts = [ 4713 8888 ];
 }

@@ -1,19 +1,9 @@
-{ config, pkgs, ... }:
-
-let
-	ghKeys = builtins.fetchurl {
-		sha256 = "sha256:189ah8yyqgjvlsi2hydk94jrra97jj7hpxr805bzkif05jp2ivai";
-		url = "https://github.com/illustris.keys";
-	};
-in
+{ config, pkgs, lib, ... }:
 {
-
-	nixpkgs.overlays = [
-	];
-
 	imports = [
-		./hardware-configuration.nix
 		./desktop-configuration.nix
+		./hardware-configuration.nix
+		./networking-configuration.nix
 		./modules
 	];
 
@@ -38,93 +28,59 @@ in
 		zfs.devNodes = "/dev/disk/by-partuuid";
 	};
 
-	time.timeZone = "Asia/Kolkata";
-
-	networking = {
-		hostId = "f86b2fa7";
-
-		hostName = "desktop";
-		networkmanager.enable = true;
-	};
-
-	security.sudo.wheelNeedsPassword = false;
-
-	users.users = {
-		illustris = {
-			isNormalUser = true;
-			extraGroups = [ "wheel" "docker" "tty" "adb" "libvirtd" ];
-			openssh.authorizedKeys.keyFiles = [ ghKeys ];
-		};
-		root.openssh.authorizedKeys.keyFiles = [ ghKeys ];
-	};
-
 	environment = {
+		etc.nixpkgs.source = pkgs.path;
 		systemPackages = with pkgs; [
 			asciinema
-			arandr
-			bind
-			binutils-unwrapped
-			bmon
+			bind binutils-unwrapped bmon
 			cmatrix # More useful than you might think
-			#ec2_api_tools
-			ethtool
-			expect
-			fatrace
-			file
-			gdb
-			git
-			gnumake
-			#graphviz
+			cscope
+			ethtool expect
+			fatrace file
+			gdb git gnumake
 			htop
-			#imagemagick
-			iotop
-			iperf
+			iotop iperf
 			jq
 			killall
-			latencytop
-			linuxPackages.perf
-			lsof
+			latencytop linuxPackages.perf lsof
 			mosh
-			ncdu
-			neofetch
-			nethogs
-			networkmanager
-			nfs-utils
-			nix-du
-			nix-top
-			nix-prefetch-git
-			nix-tree
+			ncdu neofetch nethogs networkmanager nfs-utils
+			nix-du nix-top nix-prefetch-git nix-tree
 			nnn
-			p7zip
-			pciutils
-			powertop
-			pv
-			python3
-			python3Packages.percol
+			openvpn
+			p7zip pciutils powertop pv
+			python3 python3Packages.percol
 			ranger
-			screen
-			sshfs
-			surf
-			sysstat
-			tmate
-			tmux
-			tree
-			unzip
-			usbutils
+			screen sshfs surf sysstat
+			tmate tmux tree
+			unzip usbutils
 			valgrind
-			#virt-manager
 			wget
 			youtube-dl
-			(cscope.override{emacsSupport = false;})
-			#(emacs.override{withGTK3 = false; withX = false;})
 			(pass.withExtensions (exts: [ exts.pass-otp ]))
 			((pkgs.callPackage ./packages/passcol) { })
 			(writeScriptBin "vpnpass" (builtins.readFile ./scripts/vpnpass))
 		];
-		etc = {
-			nixpkgs.source = pkgs.path;
+	};
+
+	# for ZFS
+	networking.hostId = "f86b2fa7";
+
+	nix = {
+		nixPath = [ "nixpkgs=${pkgs.path}" ];
+		settings = {
+			auto-optimise-store = true;
+			experimental-features = [ "nix-command" "flakes" ];
+			trusted-users = [ "root" "illustris" ];
 		};
 	};
+
+	# TODO: make a mergable option
+	nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+		"nvidia-persistenced" "nvidia-settings" "nvidia-x11"
+		"steam" "steam-original" "steam-run"
+		"zerotierone"
+	];
 
 	programs = {
 		adb.enable = true;
@@ -156,29 +112,48 @@ in
 			enable = true;
 			pinentryFlavor = "curses";
 		};
+
 		mosh.enable = true;
 		mtr.enable = true;
 		ssh.startAgent = true;
 	};
 
+	security.sudo.wheelNeedsPassword = false;
+
 	services = {
-		zfs.autoScrub.enable = true;
+		flatpak.enable = true;
+		gnome.gnome-keyring.enable = true;
+		ntp.enable = true;
 		openssh = {
 			enable = true;
 			settings.X11Forwarding = true;
 		};
+		qemuGuest.enable = true;
+		resolved.enable = true;
 		udev = {
-			packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
+			# TODO: check if still needed
 			extraRules = ''
 				SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
 			'';
+			packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
 		};
-		ntp.enable = true;
-		zerotierone.enable = true;
-		flatpak.enable = true;
-		gnome.gnome-keyring.enable = true;
-		qemuGuest.enable = true;
-		resolved.enable = true;
+		zfs.autoScrub.enable = true;
+	};
+
+	time.timeZone = "Asia/Kolkata";
+
+	users.users = let
+		ghKeys = pkgs.fetchurl {
+			hash = "sha256-Ue0orizAxflXASj3C4+UJ6mcJUmzeSiipls+7D2CKqE=";
+			url = "https://github.com/illustris.keys";
+		};
+	in {
+		illustris = {
+			extraGroups = [ "adb" "docker" "libvirtd" "tty" "wheel" ];
+			isNormalUser = true;
+			openssh.authorizedKeys.keyFiles = [ ghKeys ];
+		};
+		root.openssh.authorizedKeys.keyFiles = [ ghKeys ];
 	};
 
 	virtualisation = {
@@ -191,25 +166,7 @@ in
 		libvirtd.enable = true;
 	};
 
-	networking.firewall.enable = false;
-
-	nix = {
-		extraOptions = ''
-			experimental-features = nix-command flakes
-		'';
-		nixPath = [ "nixpkgs=${pkgs.path}" ];
-		settings = {
-			trusted-users = [ "root" "illustris" ];
-			auto-optimise-store = true;
-		};
-	};
-
 	xdg.portal.enable = true;
-
-	# In case of emergency, bash glass
-	#systemd.tmpfiles.rules = [
-	#	"L /bin/bash - - - - /run/current-system/sw/bin/bash"
-	#];
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
