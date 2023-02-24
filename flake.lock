@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1677273080,
-        "narHash": "sha256-0xvYx6GlbvZhIm/IL7iJD7tKCU77dYbdulq3Af8nHpQ=",
+        "lastModified": 1677276102,
+        "narHash": "sha256-9t08ZN5mNdiosyYDGl4y6S20GxQYe21G1gsQmF2yxus=",
         "owner": "illustris",
         "repo": "flake",
-        "rev": "f7035476ecfae1af3a1ea38b2171256ac15cfa76",
+        "rev": "109c78c4e075184514f44469255c1e9c2195d2cf",
         "type": "github"
       },
       "original": {

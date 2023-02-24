@@ -36,10 +36,9 @@
 			cmatrix # More useful than you might think
 			cscope
 			ethtool expect
-			fatrace file
+			fatrace file fzf
 			gdb git gnumake
 			htop
-			illustris.vpnpass
 			iotop iperf
 			jq
 			killall
@@ -59,8 +58,10 @@
 			wget
 			youtube-dl
 			(pass.withExtensions (exts: [ exts.pass-otp ]))
-			((pkgs.callPackage ./packages/passcol) { })
-		];
+		] ++ (with illustris; [
+			fzpass
+			vpnpass
+		]);
 	};
 
 	# for ZFS
