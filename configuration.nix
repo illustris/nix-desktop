@@ -64,6 +64,16 @@
 		]);
 	};
 
+	home-manager.users.illustris = { ... }: {
+		home.stateVersion = "23.05";
+		services.gpg-agent = {
+			enable = true;
+			defaultCacheTtl = 60*60*12;
+			defaultCacheTtlSsh = 60*60*12;
+			extraConfig = "auto-expand-secmem";
+		};
+	};
+
 	# for ZFS
 	networking.hostId = "f86b2fa7";
 
@@ -112,11 +122,11 @@
 		gnupg.agent = {
 			enable = true;
 			pinentryFlavor = "curses";
+			enableSSHSupport = true;
 		};
 
 		mosh.enable = true;
 		mtr.enable = true;
-		ssh.startAgent = true;
 	};
 
 	security.sudo.wheelNeedsPassword = false;
@@ -130,7 +140,6 @@
 			settings.X11Forwarding = true;
 		};
 		qemuGuest.enable = true;
-		resolved.enable = true;
 		udev = {
 			# TODO: check if still needed
 			extraRules = ''
@@ -150,7 +159,7 @@
 		};
 	in {
 		illustris = {
-			extraGroups = [ "adb" "docker" "libvirtd" "tty" "wheel" ];
+			extraGroups = [ "adb" "docker" "libvirtd" "plugdev" "tty" "wheel" ];
 			isNormalUser = true;
 			openssh.authorizedKeys.keyFiles = [ ghKeys ];
 		};
