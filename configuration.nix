@@ -127,6 +127,7 @@
 
 		mosh.enable = true;
 		mtr.enable = true;
+		nix-ld.enable = true;
 	};
 
 	security.sudo.wheelNeedsPassword = false;
