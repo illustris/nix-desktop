@@ -26,6 +26,7 @@
 		okular
 		# openhmd
 		pavucontrol
+		qsynth
 		remmina
 		perlPackages.AppClusterSSH
 		signal-desktop
