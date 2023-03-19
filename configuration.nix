@@ -134,6 +134,7 @@
 
 	services = {
 		flatpak.enable = true;
+		fwupd.enable = true;
 		gnome.gnome-keyring.enable = true;
 		ntp.enable = true;
 		openssh = {
