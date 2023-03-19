@@ -16,6 +16,7 @@
 			"fmkadmapgofadopljbjfkapdkoienihi" # React Developer Tools
 			"naepdomgkenhinolocfifgehidddafch" # Browserpass
 			"bhhioamnpnhgcakbdnkgmnjjbjolfjmj" # Advent of Code to Markdown
+			"iccmddoieihalmghkeocgmlpilhgnnfn" # Save ChatGPT
 		];
 		homepageLocation = "https://sx.illustris.tech/";
 		defaultSearchProviderSuggestURL = "https://sx.illustris.tech/autocompleter?q={searchTerms}";

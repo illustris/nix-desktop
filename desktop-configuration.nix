@@ -20,21 +20,23 @@
 		guake
 		insomnia
 		# kcachegrind
+		kicad
 		libnotify
 		mpv
 		obs-studio
 		okular
 		# openhmd
 		pavucontrol
+		perlPackages.AppClusterSSH
 		qsynth
 		remmina
-		perlPackages.AppClusterSSH
 		signal-desktop
 		scrot
 		st
 		sunshine
 		# surf
 		sxiv
+		tidal-hifi
 		virt-manager
 		vlc
 		wireshark
