@@ -12,7 +12,6 @@
 		# blender
 		dmenu
 		dunst
-		emacs
 		firefox
 		flutter
 		gimp

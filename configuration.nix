@@ -65,7 +65,23 @@
 	};
 
 	home-manager.users.illustris = { ... }: {
-		home.stateVersion = "23.05";
+		home = {
+			file.".emacs.d" = {
+				source = ./emacs.d;
+				recursive = true;
+			};
+			stateVersion = "23.05";
+		};
+		programs.emacs = {
+			enable = true;
+			extraPackages = (
+				epkgs: (with epkgs; [
+					material-theme
+					nix-mode
+					color-theme-modern
+				])
+			);
+		};
 		services.gpg-agent = {
 			enable = true;
 			defaultCacheTtl = 60*60*12;
