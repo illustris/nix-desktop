@@ -3,8 +3,8 @@
 	imports = [
 		./desktop-configuration.nix
 		./hardware-configuration.nix
-		./networking-configuration.nix
 		./modules
+		./networking-configuration.nix
 	];
 
 	# Support ARM builds
@@ -76,9 +76,25 @@
 			enable = true;
 			extraPackages = (
 				epkgs: (with epkgs; [
+					bpftrace-mode
+					cmake-mode
+					color-theme-modern
+					docker-compose-mode
+					dockerfile-mode
+					dtrace-script-mode
+					gitlab-ci-mode
+					go-mode
+					graphviz-dot-mode
+					haskell-mode
+					json-mode
+					markdown-mode
 					material-theme
 					nix-mode
-					color-theme-modern
+					puppet-mode
+					python-mode
+					strace-mode
+					verilog-mode
+					yaml-mode
 				])
 			);
 		};

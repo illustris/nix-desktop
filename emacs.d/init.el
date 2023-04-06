@@ -13,6 +13,8 @@
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 (put 'scroll-left 'disabled nil)
 
+(setq inhibit-startup-screen t)
+
 (load-theme 'cobalt t t)
 (enable-theme 'cobalt)
 
