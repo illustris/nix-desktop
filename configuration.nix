@@ -29,6 +29,7 @@
 	};
 
 	environment = {
+		enableDebugInfo = true;
 		etc.nixpkgs.source = pkgs.path;
 		systemPackages = with pkgs; [
 			asciinema
@@ -93,6 +94,7 @@
 					puppet-mode
 					python-mode
 					strace-mode
+					terraform-mode
 					verilog-mode
 					yaml-mode
 				])
