@@ -3,8 +3,8 @@
 		src = self.pkgs.fetchFromGitHub {
 			owner = "illustris";
 			repo = "st";
-			rev = "e81a0418d6333127e7b8b7c3690ea18fc3278f73";
-			hash = "sha256-hyvR0AeyuHoT0ijLFYDpcVAGGUrw1rk2CBAeUwuZ8IA=";
+			rev = "fa363487355fe0b27d82e7247577802ac66e4b0f";
+			hash = "sha256-KLh4yGSq7pf6F+mWZvH6slN+Qa1/LkjWbhFTxQ2vYng=";
 		};
 	});
 })
