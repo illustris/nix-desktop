@@ -11,9 +11,13 @@
 			url = "github:illustris/flake";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+		nixfs = {
+			url = "path:/home/illustris/src/nixfs";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 	};
 
-	outputs = { self, nixpkgs, home-manager, illustris, ... }: {
+	outputs = { self, nixpkgs, home-manager, illustris, nixfs, ... }: {
 		nixosConfigurations = {
 			desktop = nixpkgs.lib.nixosSystem {
 				system = "x86_64-linux";
@@ -22,7 +26,14 @@
 					home-manager.nixosModule
 					{nix.registry.np.flake = nixpkgs;}
 					{environment.etc.flake.source = self;}
-					{nixpkgs.overlays = [ illustris.overlays.default ];}
+					{nixpkgs.overlays = [
+						illustris.overlays.default
+						(self: super: {
+							lib = super.lib // illustris.lib;
+						})
+					];}
+					nixfs.nixosModules.nixfs
+					{services.nixfs.enable = true;}
 				];
 			};
 		};

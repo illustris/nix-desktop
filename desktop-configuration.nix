@@ -76,9 +76,11 @@
 		xserver = {
 			# defaultDepth = 30;
 			displayManager.defaultSession = "none+dwm";
+			# desktopManager.plasma5.enable = true;
 			dpi = 100;
 			enable = true;
 			videoDrivers = [ "nvidia" ];
+			wacom.enable = true;
 			windowManager.dwm.enable = true;
 		};
 		pipewire = {

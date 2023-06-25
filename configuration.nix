@@ -33,6 +33,7 @@
 		etc.nixpkgs.source = pkgs.path;
 		systemPackages = with pkgs; [
 			asciinema
+			bcc
 			bind binutils-unwrapped bmon
 			cmatrix # More useful than you might think
 			cscope
@@ -178,10 +179,17 @@
 		qemuGuest.enable = true;
 		udev = {
 			# TODO: check if still needed
-			extraRules = ''
+			extraRules = pkgs.lib.indent ''
 				SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
+				ACTION=="bind", SUBSYSTEM=="usb", ATTRS{idVendor}=="2d1f", ATTRS{idProduct}=="524c", RUN+="${pkgs.writeScript "thinkvision" (pkgs.lib.indent ''
+					#!${pkgs.bash}/bin/bash
+					export DISPLAY=:0
+					export XAUTHORITY=/var/run/lightdm/root/:0
+					xsetwacom list devices | grep -oP 'id:\s+\K[0-9]+' | xargs -I{} xsetwacom --set {} MapToOutput HEAD-1
+				'')}"
 			'';
 			packages = [ (pkgs.callPackage (import ./packages/xr-hardware/default.nix) {}) ];
+			path = with pkgs; [ xf86_input_wacom findutils ];
 		};
 		zfs.autoScrub.enable = true;
 	};
