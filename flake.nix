@@ -12,7 +12,7 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 		nixfs = {
-			url = "path:/home/illustris/src/nixfs";
+			url = "github:illustris/nixfs";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};

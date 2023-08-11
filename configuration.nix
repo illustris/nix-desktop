@@ -203,7 +203,7 @@
 		};
 	in {
 		illustris = {
-			extraGroups = [ "adb" "docker" "libvirtd" "plugdev" "tty" "wheel" ];
+			extraGroups = [ "adb" "dialout" "docker" "libvirtd" "plugdev" "tty" "wheel" ];
 			isNormalUser = true;
 			openssh.authorizedKeys.keyFiles = [ ghKeys ];
 		};
@@ -216,8 +216,9 @@
 			enableNvidia = true;
 			# extraOptions = "--storage-opt dm.basesize=20G";
 			storageDriver = "zfs";
+			daemon.settings.bip = "192.168.9.0/22";
 		};
-		libvirtd.enable = true;
+		libvirtd.enable = false;
 	};
 
 	xdg.portal.enable = true;

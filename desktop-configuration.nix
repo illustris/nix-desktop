@@ -26,7 +26,7 @@
 		okular
 		# openhmd
 		pavucontrol
-		perlPackages.AppClusterSSH
+		perl536Packages.AppClusterSSH
 		qsynth
 		remmina
 		signal-desktop
@@ -35,6 +35,7 @@
 		sunshine
 		# surf
 		sxiv
+		teams-for-linux
 		tidal-hifi
 		virt-manager
 		vlc
