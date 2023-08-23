@@ -23,17 +23,27 @@
 				system = "x86_64-linux";
 				modules = [
 					./configuration.nix
+					{
+						environment.etc.flake.source = self;
+						nix.registry.nixpkgs.flake = nixpkgs;
+						nixpkgs.overlays = with illustris.overlays; [
+							lib
+							pkgs
+							suckless
+						];
+					}
 					home-manager.nixosModule
-					{nix.registry.np.flake = nixpkgs;}
-					{environment.etc.flake.source = self;}
-					{nixpkgs.overlays = [
-						illustris.overlays.default
-						(self: super: {
-							lib = super.lib // illustris.lib;
-						})
-					];}
+					{
+						home-manager = {
+							useGlobalPkgs = true;
+							users.illustris = import (
+								illustris + "/homeConfigurations/profiles/dailyDriver/home.nix"
+							);
+						};
+					}
 					nixfs.nixosModules.nixfs
 					{services.nixfs.enable = true;}
+					illustris.nixosModules.plasmonad
 				];
 			};
 		};

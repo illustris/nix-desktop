@@ -66,49 +66,6 @@
 		]);
 	};
 
-	home-manager.users.illustris = { ... }: {
-		home = {
-			file.".emacs.d" = {
-				source = ./emacs.d;
-				recursive = true;
-			};
-			stateVersion = "23.05";
-		};
-		programs.emacs = {
-			enable = true;
-			extraPackages = (
-				epkgs: (with epkgs; [
-					bpftrace-mode
-					cmake-mode
-					color-theme-modern
-					docker-compose-mode
-					dockerfile-mode
-					dtrace-script-mode
-					gitlab-ci-mode
-					go-mode
-					graphviz-dot-mode
-					haskell-mode
-					json-mode
-					markdown-mode
-					material-theme
-					nix-mode
-					puppet-mode
-					python-mode
-					strace-mode
-					terraform-mode
-					verilog-mode
-					yaml-mode
-				])
-			);
-		};
-		services.gpg-agent = {
-			enable = true;
-			defaultCacheTtl = 60*60*12;
-			defaultCacheTtlSsh = 60*60*12;
-			extraConfig = "auto-expand-secmem";
-		};
-	};
-
 	# for ZFS
 	networking.hostId = "f86b2fa7";
 
