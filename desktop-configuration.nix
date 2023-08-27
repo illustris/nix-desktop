@@ -5,8 +5,8 @@
 		# blender
 		dmenu
 		dunst
-		firefox
-		flutter
+		# firefox
+		# flutter
 		gimp
 		gnome.gnome-screenshot
 		guake
@@ -60,7 +60,7 @@
 	security.rtkit.enable = true;
 
 	services = {
-		blueman.enable = true;
+		# blueman.enable = true;
 		picom = {
 			backend = "glx";
 			# backend = "xr_glx_hybrid";

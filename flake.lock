@@ -49,11 +49,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1693038750,
-        "narHash": "sha256-E2LPvt+R8rh2uBBZqKsMRst+f/m5T0KcyOnaoQgQRe8=",
+        "lastModified": 1693132095,
+        "narHash": "sha256-MZzCHu0IunZV8gBjg5eaobA5a9o0ERNwh39GRJvJxeo=",
         "owner": "illustris",
         "repo": "flake",
-        "rev": "0fa532af2d2a32fca2fb01baa403e985ac455142",
+        "rev": "0a57fc904aa38b1fdcfa15699e4a6eee58cbc683",
         "type": "github"
       },
       "original": {
