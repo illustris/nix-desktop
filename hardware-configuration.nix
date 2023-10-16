@@ -14,6 +14,7 @@
 			kernelModules = [ ];
 		};
 		kernelModules = [ "v4l2loopback" ];
+		kernelParams = [ "mitigations=off" ];
 		extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 	};
 

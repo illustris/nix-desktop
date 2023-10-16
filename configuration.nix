@@ -160,7 +160,9 @@
 		};
 	in {
 		illustris = {
-			extraGroups = [ "adb" "dialout" "docker" "libvirtd" "plugdev" "tty" "wheel" ];
+			extraGroups = [
+				"adb" "dialout" "libvirtd" "plugdev" "tty" "wheel"
+			] ++ lib.optionals config.virtualisation.docker.enable [ "docker" ];
 			isNormalUser = true;
 			openssh.authorizedKeys.keyFiles = [ ghKeys ];
 		};
@@ -169,7 +171,7 @@
 
 	virtualisation = {
 		docker = {
-			enable = true;
+			enable = false;
 			enableNvidia = true;
 			# extraOptions = "--storage-opt dm.basesize=20G";
 			storageDriver = "zfs";
