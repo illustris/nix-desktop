@@ -9,15 +9,23 @@
 		};
 		illustris = {
 			url = "github:illustris/flake";
-			inputs.nixpkgs.follows = "nixpkgs";
+			inputs = {
+				nixpkgs.follows = "nixpkgs";
+				firefox-addons.follows = "firefox-addons";
+				home-manager.follows = "home-manager";
+			};
 		};
 		nixfs = {
 			url = "github:illustris/nixfs";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+		firefox-addons = {
+			url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 	};
 
-	outputs = { self, nixpkgs, home-manager, illustris, nixfs, ... }: {
+	outputs = { self, nixpkgs, home-manager, illustris, nixfs, ... }@inputs: {
 		nixosConfigurations = {
 			desktop = nixpkgs.lib.nixosSystem {
 				system = "x86_64-linux";
@@ -38,7 +46,7 @@
 							useGlobalPkgs = true;
 							users.illustris = import (
 								illustris + "/homeConfigurations/profiles/dailyDriver/home.nix"
-							);
+							) inputs;
 						};
 					}
 					nixfs.nixosModules.nixfs
