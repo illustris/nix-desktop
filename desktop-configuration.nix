@@ -25,7 +25,10 @@
 		signal-desktop
 		scrot
 		st
-		sunshine
+		(sunshine.override {
+			cudaSupport = true;
+			cudaPackages = cudaPackages_12;
+		})
 		# surf
 		sxiv
 		teams-for-linux
