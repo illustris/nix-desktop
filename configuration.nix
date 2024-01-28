@@ -134,6 +134,26 @@
 			enable = true;
 			settings.X11Forwarding = true;
 		};
+		prometheus = {
+			enable = true;
+			exporters = {
+				node = {
+					enable = true;
+					enabledCollectors = [ "systemd" ];
+				};
+			};
+			scrapeConfigs = [
+				{
+					job_name = "node_exporter";
+					scrape_interval = "10s";
+					static_configs = [
+						{
+							targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+						}
+					];
+				}
+			];
+		};
 		qemuGuest.enable = true;
 		udev = {
 			# TODO: check if still needed
@@ -151,6 +171,14 @@
 		};
 		zfs.autoScrub.enable = true;
 	};
+	# systemd = {
+	# 	# Disable autostart
+	# 	services.grafana = {
+	# 		wantedBy = lib.mkForce [];
+	# 		serviceConfig.SupplementaryGroups = [ config.users.groups.keys.name ];
+	# 	};
+	# 	services.docker.wantedBy = lib.mkForce [];
+	# };
 
 	time.timeZone = "Asia/Kolkata";
 
