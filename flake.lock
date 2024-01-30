@@ -71,17 +71,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1704710250,
-        "narHash": "sha256-j5FeH5poCCtTXAIEcLn8Uh3qpg03aCRHhoS1NfLY3w0=",
-        "owner": "illustris",
-        "repo": "flake",
-        "rev": "c06171c64959c36da7314415902cee40e3f7f4e8",
-        "type": "github"
+        "lastModified": 1706443768,
+        "narHash": "sha256-EwHM3g6Tfwdxbb/mmAcI674K+Bjt2p8mYvSzZ742gAI=",
+        "path": "/home/illustris/src/flake",
+        "type": "path"
       },
       "original": {
-        "owner": "illustris",
-        "repo": "flake",
-        "type": "github"
+        "path": "/home/illustris/src/flake",
+        "type": "path"
       }
     },
     "nixfs": {
