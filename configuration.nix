@@ -127,6 +127,7 @@
 
 	services = {
 		flatpak.enable = true;
+		fprintd.enable = true;
 		fwupd.enable = true;
 		gnome.gnome-keyring.enable = true;
 		ntp.enable = true;
@@ -203,7 +204,7 @@
 			enable = false;
 			enableNvidia = true;
 			# extraOptions = "--storage-opt dm.basesize=20G";
-			storageDriver = "zfs";
+			storageDriver = "overlay2";
 			daemon.settings.bip = "192.168.9.0/22";
 		};
 		libvirtd.enable = false;
