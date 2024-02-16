@@ -13,6 +13,7 @@
 		insomnia
 		# kcachegrind
 		# kicad # 8GB
+		kitty
 		libnotify
 		mpv
 		obs-studio
@@ -58,7 +59,14 @@
 
 	networking.firewall.allowedTCPPorts = [ 4713 8888 ];
 
-	programs.steam.enable = true;
+	programs = {
+		hyprland = {
+			enable = true;
+			xwayland.enable = true;
+		};
+		waybar.enable = true;
+		steam.enable = true;
+	};
 
 	security.rtkit.enable = true;
 
