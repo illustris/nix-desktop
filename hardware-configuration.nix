@@ -73,5 +73,8 @@
 	hardware = {
 		firmware = with pkgs; [ linux-firmware ];
 		bluetooth.enable = true;
+		# needed by hyperland
+		nvidia.modesetting.enable = true;
+		opengl.enable = true;
 	};
 }
