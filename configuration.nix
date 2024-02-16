@@ -211,6 +211,10 @@
 			daemon.settings.bip = "192.168.9.0/22";
 		};
 		libvirtd.enable = false;
+		podman = {
+			enable = true;
+			enableNvidia = true;
+		};
 	};
 
 	xdg.portal.enable = true;
