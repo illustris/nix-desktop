@@ -44,9 +44,13 @@
 					{
 						home-manager = {
 							useGlobalPkgs = true;
-							users.illustris = import (
-								illustris + "/homeConfigurations/profiles/dailyDriver/home.nix"
-							) inputs;
+							users.illustris = {...}: {
+								imports = [
+									(import (
+										illustris + "/homeConfigurations/profiles/dailyDriver/home.nix"
+									) inputs)
+								];
+							};
 						};
 					}
 					nixfs.nixosModules.nixfs
