@@ -80,7 +80,29 @@
 
 	# TODO: make a mergable option
 	nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-		"cudatoolkit"
+		"cuda-merged"
+		"libnpp"
+		"libcusparse"
+		"libcusolver"
+		"libcurand"
+		"libcufft"
+		"libcublas"
+		"libnvjitlink"
+		"cuda_sanitizer_api"
+		"cuda_profiler_api"
+		"cuda_nvtx"
+		"cuda_nvrtc"
+		"cuda_nvml_dev"
+		"cuda_cuobjdump"
+		"cuda_gdb"
+		"cuda_nvcc"
+		"cuda_nvdisasm"
+		"cuda_nvprune"
+		"cuda_cccl"
+		"cuda_cudart"
+		"cuda_cupti"
+		"cuda_cuxxfilt"
+		"displaylink"
 		"nvidia-persistenced" "nvidia-settings" "nvidia-x11"
 		"steam" "steam-original" "steam-run"
 		"zerotierone"
@@ -114,21 +136,25 @@
 
 		gnupg.agent = {
 			enable = true;
-			pinentryFlavor = "curses";
+			pinentryPackage = pkgs.pinentry-qt;
 			enableSSHSupport = true;
 		};
+
+		kdeconnect.enable = true;
 
 		mosh.enable = true;
 		mtr.enable = true;
 		nix-ld.enable = true;
 	};
 
+	security.sudo.wheelNeedsPassword = false;
 	security.pam.services = {
 		login.u2fAuth = true;
 		sudo.u2fAuth = true;
 	};
 
 	services = {
+		avahi.publish.userServices = true;
 		flatpak.enable = true;
 		fprintd.enable = true;
 		fwupd.enable = true;
@@ -175,14 +201,14 @@
 		};
 		zfs.autoScrub.enable = true;
 	};
-	# systemd = {
+	systemd = {
 	# 	# Disable autostart
 	# 	services.grafana = {
 	# 		wantedBy = lib.mkForce [];
 	# 		serviceConfig.SupplementaryGroups = [ config.users.groups.keys.name ];
 	# 	};
-	# 	services.docker.wantedBy = lib.mkForce [];
-	# };
+		services.docker.wantedBy = lib.mkForce [];
+	};
 
 	time.timeZone = "Asia/Kolkata";
 

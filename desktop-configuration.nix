@@ -57,7 +57,10 @@
 		# };
 	};
 
-	networking.firewall.allowedTCPPorts = [ 4713 8888 ];
+	networking.firewall = {
+		enable = false;
+		allowedTCPPorts = [ 4713 8888 ];
+	};
 
 	programs = {
 		hyprland = {
@@ -65,12 +68,16 @@
 			xwayland.enable = true;
 		};
 		waybar.enable = true;
-		steam.enable = true;
+		steam = {
+			enable = true;
+			gamescopeSession.enable = true;
+		};
 	};
 
 	security.rtkit.enable = true;
 
 	services = {
+		displayManager.sddm.enable = lib.mkForce false;
 		# blueman.enable = true;
 		picom = {
 			backend = "glx";
@@ -84,9 +91,10 @@
 			# desktopManager.plasma5.enable = true;
 			dpi = 100;
 			# enable = true;
-			videoDrivers = [ "nvidia" ];
+			videoDrivers = [ "displaylink" "nvidia" ];
 			wacom.enable = true;
 			windowManager.dwm.enable = true;
+			displayManager.lightdm.enable = true;
 		};
 		pipewire = {
 			alsa = {
