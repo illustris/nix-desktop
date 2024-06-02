@@ -14,7 +14,7 @@
 			kernelModules = [ ];
 		};
 		kernelModules = [ "v4l2loopback" ];
-		kernelParams = [ "mitigations=off" ];
+		kernelParams = [ "mitigations=off" "nvidia_drm.fbdev=1" ];
 		extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 	};
 
