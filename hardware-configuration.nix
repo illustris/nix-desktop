@@ -75,6 +75,7 @@
 		bluetooth.enable = true;
 		# needed by hyperland
 		nvidia.modesetting.enable = true;
+		nvidia-container-toolkit.enable = true;
 		opengl.enable = true;
 	};
 }

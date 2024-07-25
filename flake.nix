@@ -19,13 +19,17 @@
 			url = "github:illustris/nixfs";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+		nixtop = {
+			url = "github:illustris/nixtop";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 		firefox-addons = {
 			url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
 
-	outputs = { self, nixpkgs, home-manager, illustris, nixfs, ... }@inputs: {
+	outputs = { self, nixpkgs, home-manager, illustris, nixfs, nixtop, ... }@inputs: {
 		nixosConfigurations = {
 			desktop = nixpkgs.lib.nixosSystem {
 				system = "x86_64-linux";
@@ -44,6 +48,7 @@
 					{
 						home-manager = {
 							useGlobalPkgs = true;
+							backupFileExtension = "hm-bak";
 							users.illustris = {...}: {
 								imports = [
 									(import (
@@ -56,6 +61,7 @@
 					nixfs.nixosModules.nixfs
 					{services.nixfs.enable = true;}
 					illustris.nixosModules.plasmonad
+					{environment.systemPackages = [ nixtop.packages.x86_64-linux.nixtop ];}
 				];
 			};
 		};

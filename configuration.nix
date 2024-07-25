@@ -30,7 +30,10 @@
 
 	environment = {
 		enableDebugInfo = true;
-		etc.nixpkgs.source = pkgs.path;
+		etc = {
+			nixpkgs.source = pkgs.path;
+			hosts.mode = "0644";
+		};
 		systemPackages = with pkgs; [
 			asciinema
 			bcc
@@ -47,7 +50,7 @@
 			latencytop linuxPackages.perf lsof
 			mosh
 			ncdu neofetch nethogs networkmanager nfs-utils
-			nix-du nix-top nix-prefetch-git nix-tree
+			nix-du nix-prefetch-git nix-tree
 			nnn
 			openvpn
 			p7zip pciutils powertop pv
@@ -58,7 +61,7 @@
 			unzip usbutils
 			valgrind
 			wget
-			youtube-dl
+			yt-dlp
 			(pass.withExtensions (exts: [ exts.pass-otp ]))
 		] ++ (with illustris; [
 			fzpass
@@ -229,6 +232,7 @@
 	};
 
 	virtualisation = {
+		# containers.cdi.dynamic.nvidia.enable = true;
 		docker = {
 			enable = false;
 			enableNvidia = true;
@@ -237,10 +241,7 @@
 			daemon.settings.bip = "192.168.9.0/22";
 		};
 		libvirtd.enable = false;
-		podman = {
-			enable = true;
-			enableNvidia = true;
-		};
+		podman.enable = true;
 	};
 
 	xdg.portal.enable = true;
@@ -251,7 +252,7 @@
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "21.05"; # Did you read the comment?
+	system.stateVersion = "22.05"; # Did you read the comment?
 
 }
 

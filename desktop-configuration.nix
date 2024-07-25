@@ -32,7 +32,6 @@
 		})
 		# surf
 		sxiv
-		teams-for-linux
 		tidal-hifi
 		virt-manager
 		vlc
@@ -91,7 +90,10 @@
 			# desktopManager.plasma5.enable = true;
 			dpi = 100;
 			# enable = true;
-			videoDrivers = [ "displaylink" "nvidia" ];
+			videoDrivers = [
+				# "displaylink"
+				"nvidia"
+			];
 			wacom.enable = true;
 			windowManager.dwm.enable = true;
 			displayManager.lightdm.enable = true;
