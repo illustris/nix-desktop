@@ -1,8 +1,9 @@
 { pkgs, ... }:
 {
 	environment.systemPackages = with pkgs; [
-		netbird-ui
 		iftop
+		netbird-ui
+		wireguard-tools
 	];
 	networking = {
 		firewall.enable = false;
