@@ -24,7 +24,7 @@
 			efi.canTouchEfiVariables = true;
 		};
 
-		supportedFilesystems = [ "zfs" "ntfs" ];
+		supportedFilesystems = [ "zfs" "ntfs" "nfs" ];
 		zfs.devNodes = "/dev/disk/by-partuuid";
 	};
 
