@@ -13,9 +13,7 @@
 			availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "sr_mod" "virtio_blk" "nvme" ];
 			kernelModules = [ ];
 		};
-		kernelModules = [ "v4l2loopback" ];
 		kernelParams = [ "mitigations=off" "nvidia_drm.fbdev=1" ];
-		extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 	};
 
 	fileSystems = {
@@ -74,7 +72,10 @@
 		firmware = with pkgs; [ linux-firmware ];
 		bluetooth.enable = true;
 		# needed by hyperland
-		nvidia.modesetting.enable = true;
+		nvidia = {
+			modesetting.enable = true;
+			open = true;
+		};
 		nvidia-container-toolkit.enable = true;
 		opengl.enable = true;
 	};

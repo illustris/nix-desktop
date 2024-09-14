@@ -50,7 +50,8 @@
 			latencytop linuxPackages.perf lsof
 			mosh
 			ncdu neofetch nethogs networkmanager nfs-utils
-			nix-du nix-prefetch-git nix-tree
+			nix-du
+			nix-prefetch-git nix-tree
 			nnn
 			openvpn
 			p7zip pciutils powertop pv
@@ -217,7 +218,7 @@
 
 	users.users = let
 		ghKeys = pkgs.fetchurl {
-			hash = "sha256-Ue0orizAxflXASj3C4+UJ6mcJUmzeSiipls+7D2CKqE=";
+			hash = "sha256-1hn4+7A3C5awBJX6668apL9SYbPTkkwNyFMy7ELDkYA=";
 			url = "https://github.com/illustris.keys";
 		};
 	in {
@@ -234,14 +235,14 @@
 	virtualisation = {
 		# containers.cdi.dynamic.nvidia.enable = true;
 		docker = {
-			enable = false;
+			enable = true;
 			enableNvidia = true;
 			# extraOptions = "--storage-opt dm.basesize=20G";
 			storageDriver = "overlay2";
 			daemon.settings.bip = "192.168.9.0/22";
 		};
 		libvirtd.enable = false;
-		podman.enable = true;
+		podman.enable = false;
 	};
 
 	xdg.portal.enable = true;
